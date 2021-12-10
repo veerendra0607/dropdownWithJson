@@ -14,6 +14,8 @@ class CarsDataModel {
     }
     return data;
   }
+
+  void then(Null Function(List<CarsDataModel> value) param0) {}
 }
 
 class Cars {

@@ -39,52 +39,52 @@ class _NetworkDropDownState extends State<NetworkDropDown> {
         padding: EdgeInsets.all(20.0),
         children: [
           // State Dropdown
-          // DropdownButton<CarsDataModel>(
-          //   hint: Text('State'),
-          //   value: SelectedFord,
-          //   isExpanded: true,
-          //   items: Nissan.map((CarsDataModel cars) {
-          //     return DropdownMenuItem<CarsDataModel>(
-          //       value: cars,
-          //       child: Text(cars.cars),
-          //     );
-          //   }).toList(),
-          //   onChanged: onStateChange,
-          // ),
+          DropdownButton<CarsDataModel>(
+            hint: Text('Select Car'),
+            value: SelectedFord,
+            isExpanded: true,
+            items: Nissan.map((CarsDataModel value) {
+              return DropdownMenuItem<CarsDataModel>(
+                value: value,
+                child: Text(value.toString()),
+              );
+            }).toList(),
+            onChanged: onStateChange,
+          ),
           // State Dropdown Ends here
           SizedBox(height: 60.0),
           // Districts Dropdown
-          // DropdownButton<CarsDataModel>(
-          //   hint: Text('District'),
-          //   value: SelectedFord,
-          //   isExpanded: true,
-          //   items: Ford.map((CarsDataModel postOffice) {
-          //     return DropdownMenuItem<CarsDataModel>(
-          //       value: postOffice,
-          //       child: Text(postOffice.cars),
-          //     );
-          //   }).toList(),
-          //   onChanged: onDistrictChange,
-          // ),
+          DropdownButton<CarsDataModel>(
+            hint: Text('Related Car'),
+            value: SelectedFord,
+            isExpanded: true,
+            items: Ford.map((CarsDataModel fordcars) {
+              return DropdownMenuItem<CarsDataModel>(
+                value: fordcars,
+                child: Text(Ford.length.toString()),
+              );
+            }).toList(),
+            onChanged: onDistrictChange,
+          ),
           // Districts Dropdown Ends here
         ],
       ),
     );
   }
 
-  // void onStateChange(state) {
-  //   setState(() {
-  //     selectedNissan = state;
-  //     Ford = [];
-  //     selectedNissan = null;
-  //   });
-  //   String endpoint = "$baseURL/api/pin/${selectedNissan!.cars}";
-  //   selectedNissan(endpoint).then((List<CarsDataModel> value) {
-  //     setState(() {
-  //       selectedNissan = value as CarsDataModel?;
-  //     });
-  //   });
-  // }
+  void onStateChange(state) {
+    setState(() {
+      selectedNissan = state;
+      Ford = [];
+      selectedNissan = null;
+    });
+    String endpoint = "$baseURL/api/pin/${selectedNissan!.cars}";
+    selectedNissan!.then((List<CarsDataModel> value) {
+      setState(() {
+        selectedNissan = value as CarsDataModel?;
+      });
+    });
+  }
 
   void onDistrictChange(district) {
     setState(() {

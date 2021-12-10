@@ -1,21 +1,15 @@
-import 'package:dropdown/model/datamodel.dart';
-import 'package:http/http.dart' as http;
-class Services {
-  //
-  static const String url = 'assets/cars.json';
+import 'dart:convert';
 
-  Services(String body);
-  static Future<Object> getUsers() async {
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (200 == response.statusCode) {
-        final Services users = Services(response.body);
-        return users;
-      } else {
-        return <Cars>[];
-      }
-    } catch (e) {
-      return <Cars>[];
-    }
+import 'package:dropdown/model/datamodel.dart';
+import 'package:flutter/services.dart';
+
+class Services {
+  CarModel? cardetails;
+  List<CarModel> users = [];
+
+  Future<void> fetchData() async {
+    String jsonContent = await rootBundle.loadString("assets/cars.json");
+    dynamic decodedJson = json.decode(jsonContent);
+    cardetails = carModelFromJson(decodedJson);
   }
 }

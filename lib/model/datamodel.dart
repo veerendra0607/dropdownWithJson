@@ -1,89 +1,85 @@
-class CarsDataModel {
+// To parse this JSON data, do
+//
+//     final carModel = carModelFromJson(jsonString);
+
+import 'dart:convert';
+
+CarModel carModelFromJson(String str) => CarModel.fromJson(json.decode(str));
+
+String carModelToJson(CarModel data) => json.encode(data.toJson());
+
+class CarModel {
+  CarModel({
+    this.cars,
+  });
+
   Cars? cars;
 
-  CarsDataModel({this.cars});
+  factory CarModel.fromJson(Map<String, dynamic> json) => CarModel(
+    cars: Cars.fromJson(json["cars"]),
+  );
 
-  CarsDataModel.fromJson(Map<String, dynamic> json) {
-    cars = json['cars'] != null ? new Cars.fromJson(json['cars']) : null;
-  }
+  Map<String, dynamic> toJson() => {
+    "cars": cars!.toJson(),
+  };
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.cars != null) {
-      data['cars'] = this.cars!.toJson();
-    }
-    return data;
-  }
-
-  void then(Null Function(List<CarsDataModel> value) param0) {}
+  void then(Null Function(List<CarModel> value) param0) {}
 }
 
 class Cars {
+  Cars({
+    this.nissan,
+    this.ford,
+  });
+
   List<Nissan>? nissan;
   List<Ford>? ford;
 
-  Cars({this.nissan, this.ford});
+  factory Cars.fromJson(Map<String, dynamic> json) => Cars(
+    nissan: List<Nissan>.from(json["Nissan"].map((x) => Ford.fromJson(x))),
+    ford: List<Ford>.from(json["Ford"].map((x) => Ford.fromJson(x))),
+  );
 
-  Cars.fromJson(Map<String, dynamic> json) {
-    if (json['Nissan'] != null) {
-      nissan = <Nissan>[];
-      json['Nissan'].forEach((v) {
-        nissan!.add(new Nissan.fromJson(v));
-      });
-    }
-    if (json['Ford'] != null) {
-      ford = <Ford>[];
-      json['Ford'].forEach((v) {
-        ford!.add(new Ford.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.nissan != null) {
-      data['Nissan'] = this.nissan!.map((v) => v.toJson()).toList();
-    }
-    if (this.ford != null) {
-      data['Ford'] = this.ford!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "Nissan": List<dynamic>.from(nissan!.map((x) => x.toJson())),
+    "Ford": List<dynamic>.from(ford!.map((x) => x.toJson())),
+  };
 }
-
 class Nissan {
-  String ?model;
-  int? doors;
+  Nissan({
+    this.model,
+    this.doors,
+  });
 
-  Nissan({this.model, this.doors});
-
-  Nissan.fromJson(Map<String, dynamic> json) {
-    model = json['model'];
-    doors = json['doors'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['model'] = this.model;
-    data['doors'] = this.doors;
-    return data;
-  }
-}
-class Ford {
   String? model;
   int? doors;
 
-  Ford({this.model, this.doors});
+  factory Nissan.fromJson(Map<String, dynamic> json) => Nissan(
+    model: json["model"],
+    doors: json["doors"],
+  );
 
-  Ford.fromJson(Map<String, dynamic> json) {
-    model = json['model'];
-    doors = json['doors'];
-  }
+  Map<String, dynamic> toJson() => {
+    "model": model,
+    "doors": doors,
+  };
+}
+class Ford {
+  Ford({
+    this.model,
+    this.doors,
+  });
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['model'] = this.model;
-    data['doors'] = this.doors;
-    return data;
-  }
+  String? model;
+  int? doors;
+
+  factory Ford.fromJson(Map<String, dynamic> json) => Ford(
+    model: json["model"],
+    doors: json["doors"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "model": model,
+    "doors": doors,
+  };
 }

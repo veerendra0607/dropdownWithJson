@@ -1,9 +1,8 @@
 import 'dart:convert';
+
 import 'package:dropdown/model/datamodel.dart';
-import 'package:dropdown/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 
 
 class NetworkDropDown extends StatefulWidget {
@@ -12,9 +11,23 @@ class NetworkDropDown extends StatefulWidget {
 }
 
 class _NetworkDropDownState extends State<NetworkDropDown> {
+List<CarModel> carmodel=[];
+List<Nissan> nissancar=[];
+List<Ford> fordcar=[];
+
  Future<CarModel> fetchData(BuildContext context) async{
-   final jsonString=await DefaultAssetBundle.of(context).loadString("assets/cars.json");
- return carModelFromJson(jsonString);
+   final String jsonString=await rootBundle.loadString("assets/cars.json");
+   final carData=await jsonDecode(jsonString);
+
+   var list=carData[""] as List<dynamic>;
+   setState(() {
+     carmodel=list.map((e) => CarModel.fromJson(e)).toList();
+   });
+   print("======================="+jsonString);
+   print(carData);
+   print(carmodel);
+   return carModelFromJson(jsonString);
+
  }
   // CarModel? cardetails;
   //
@@ -27,6 +40,8 @@ class _NetworkDropDownState extends State<NetworkDropDown> {
   @override
   void initState() {
     super.initState();
+    fetchData(context);
+
   }
 
   @override
@@ -40,44 +55,44 @@ class _NetworkDropDownState extends State<NetworkDropDown> {
         future: fetchData(context),
         builder: (context,snapshot){
           if(snapshot.hasData){
-            return ListView(
-              // padding: EdgeInsets.all(20.0),
-              // itemCount: snapshot.data.toString().length,
-              // itemBuilder: (BuildContext context, int index){
-              //   CarModel items=snapshot.data.toString()[index].toString() as CarModel;
-              //   return Text(items.cars.toString());
-              // },
-              children: [
-                // State Dropdown
-                DropdownButton<CarModel>(
-                  hint: Text('Select Car'),
-                  value: SelectedFord,
-                  isExpanded: true,
-                  items: Nissan.map((CarModel value) {
-                    return DropdownMenuItem<CarModel>(
-                      value: value,
-                      child: Text(value.toString()),
-                    );
-                  }).toList(),
-                  onChanged: onStateChange,
-                ),
-                // State Dropdown Ends here
-                SizedBox(height: 60.0),
-                // Districts Dropdown
-                DropdownButton<CarModel>(
-                  hint: Text('Related Car'),
-                  value: SelectedFord,
-                  isExpanded: true,
-                  items: Ford.map((CarModel fordcars) {
-                    return DropdownMenuItem<CarModel>(
-                      value: fordcars,
-                      child: Text(Ford.length.toString()),
-                    );
-                  }).toList(),
-                  onChanged: onDistrictChange,
-                ),
-                // Districts Dropdown Ends here
-              ],
+            return ListView.builder(
+              padding: EdgeInsets.all(20.0),
+              itemCount: snapshot.data.toString().length,
+              itemBuilder: (BuildContext context, int index){
+                CarModel items=snapshot.data.toString()[index].toString() as CarModel;
+                return Text(items.cars.toString());
+              },
+              // children: [
+              //   // State Dropdown
+              //   DropdownButton<CarModel>(
+              //     hint: Text('Select Car'),
+              //     value: SelectedFord,
+              //     isExpanded: true,
+              //     items: Nissan.map((CarModel value) {
+              //       return DropdownMenuItem<CarModel>(
+              //         value: value,
+              //         child: Text(value.toString()),
+              //       );
+              //     }).toList(),
+              //     onChanged: onStateChange,
+              //   ),
+              //   // State Dropdown Ends here
+              //   SizedBox(height: 60.0),
+              //   // Districts Dropdown
+              //   DropdownButton<CarModel>(
+              //     hint: Text('Related Car'),
+              //     value: SelectedFord,
+              //     isExpanded: true,
+              //     items: Ford.map((CarModel fordcars) {
+              //       return DropdownMenuItem<CarModel>(
+              //         value: fordcars,
+              //         child: Text(Ford.length.toString()),
+              //       );
+              //     }).toList(),
+              //     onChanged: onDistrictChange,
+              //   ),
+              //   // Districts Dropdown Ends here
+              // ],
             );
           }
           else{
@@ -88,6 +103,9 @@ class _NetworkDropDownState extends State<NetworkDropDown> {
         }
 
       )
+
+
+
       // ListView(
       //   padding: EdgeInsets.all(20.0),
       //   children: [

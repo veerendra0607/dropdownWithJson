@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:dropdown/model/datamodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 
 class NetworkDropDown extends StatefulWidget {
@@ -16,16 +13,8 @@ List<Nissan> nissancar=[];
 List<Ford> fordcar=[];
 
  Future<CarModel> fetchData(BuildContext context) async{
-   final String jsonString=await rootBundle.loadString("assets/cars.json");
-   final carData=await jsonDecode(jsonString);
-
-   var list=carData[""] as List<dynamic>;
-   setState(() {
-     carmodel=list.map((e) => CarModel.fromJson(e)).toList();
-   });
+   final jsonString=await DefaultAssetBundle.of(context).loadString("assets/cars.json");
    print("======================="+jsonString);
-   print(carData);
-   print(carmodel);
    return carModelFromJson(jsonString);
 
  }
@@ -54,7 +43,7 @@ List<Ford> fordcar=[];
       FutureBuilder(
         future: fetchData(context),
         builder: (context,snapshot){
-          if(snapshot.hasData){
+          if(snapshot.hasData) {
             return ListView.builder(
               padding: EdgeInsets.all(20.0),
               itemCount: snapshot.data.toString().length,

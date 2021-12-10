@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:flutter/src/material/dropdown.dart';
+
 CarModel carModelFromJson(String str) => CarModel.fromJson(json.decode(str));
 
 String carModelToJson(CarModel data) => json.encode(data.toJson());
@@ -24,6 +26,8 @@ class CarModel {
   };
 
   void then(Null Function(List<CarModel> value) param0) {}
+
+  map(DropdownMenuItem<CarModel> Function(CarModel fordcars) param0) {}
 }
 
 class Cars {
@@ -63,6 +67,10 @@ class Nissan {
     "model": model,
     "doors": doors,
   };
+
+  static map(DropdownMenuItem<CarModel> Function(CarModel value) param0) {}
+
+  void then(Null Function(List<Nissan> value) param0) {}
 }
 class Ford {
   Ford({

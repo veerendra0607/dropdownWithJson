@@ -18,10 +18,10 @@ List<Ford> fordcar=[];
    return carModelFromJson(jsonString);
 
  }
-  // CarModel? cardetails;
-  //
-  // CarModel? selectedNissan;
-  // CarModel? SelectedFord;
+  CarModel? cardetails;
+
+  Nissan? selectedNissan;
+  Ford? SelectedFord;
   //
   // List<CarModel> Nissan = [];
   // List<CarModel> Ford = [];
@@ -39,59 +39,79 @@ List<Ford> fordcar=[];
       appBar: AppBar(
         title: Text('Network Multi Level Dropdown'),
       ),
-      body:
-      FutureBuilder(
-        future: fetchData(context),
-        builder: (context,snapshot){
-          if(snapshot.hasData) {
-            return ListView.builder(
-              padding: EdgeInsets.all(20.0),
-              itemCount: snapshot.data.toString().length,
-              itemBuilder: (BuildContext context, int index){
-                CarModel items=snapshot.data.toString()[index].toString() as CarModel;
-                return Text(items.cars.toString());
-              },
-              // children: [
-              //   // State Dropdown
-              //   DropdownButton<CarModel>(
-              //     hint: Text('Select Car'),
-              //     value: SelectedFord,
-              //     isExpanded: true,
-              //     items: Nissan.map((CarModel value) {
-              //       return DropdownMenuItem<CarModel>(
-              //         value: value,
-              //         child: Text(value.toString()),
-              //       );
-              //     }).toList(),
-              //     onChanged: onStateChange,
-              //   ),
-              //   // State Dropdown Ends here
-              //   SizedBox(height: 60.0),
-              //   // Districts Dropdown
-              //   DropdownButton<CarModel>(
-              //     hint: Text('Related Car'),
-              //     value: SelectedFord,
-              //     isExpanded: true,
-              //     items: Ford.map((CarModel fordcars) {
-              //       return DropdownMenuItem<CarModel>(
-              //         value: fordcars,
-              //         child: Text(Ford.length.toString()),
-              //       );
-              //     }).toList(),
-              //     onChanged: onDistrictChange,
-              //   ),
-              //   // Districts Dropdown Ends here
-              // ],
-            );
-          }
-          else{
-            return  Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        }
+      body: Column(
+   children: [
+     if(carmodel.length > 0)
 
+         ListView.builder(
+         itemCount: carmodel.length,
+         itemBuilder: (BuildContext context, index){
+           return ListTile(title: Text(carmodel[index].toString()));
+       },
+    )
+
+     else
+       Center(child: CircularProgressIndicator())
+
+   ],
       )
+      // FutureBuilder(
+      //   future: fetchData(context),
+      //   builder: (context,snapshot){
+      //     if(snapshot.hasData) {
+      //       return ListView.builder(
+      //         padding: EdgeInsets.all(20.0),
+      //         itemCount: snapshot.data.toString().length,
+      //         itemBuilder: (BuildContext context, int index){
+      //           CarModel items=snapshot.data.toString()[index].toString() as CarModel;
+      //           return
+      //
+      //           ListView(
+      //             padding: EdgeInsets.all(20.0),
+      //             children: [
+      //               // State Dropdown
+      //               DropdownButton<CarModel>(
+      //                 hint: Text('Select Car'),
+      //                 value: SelectedFord,
+      //                 isExpanded: true,
+      //                 items: Nissan.map((CarModel value) {
+      //                   return DropdownMenuItem<CarModel>(
+      //                     value: value,
+      //                     child: Text(value.toString()),
+      //                   );
+      //                 }).toList(),
+      //                 onChanged: onStateChange,
+      //               ),
+      //               // State Dropdown Ends here
+      //               SizedBox(height: 60.0),
+      //               // Districts Dropdown
+      //               DropdownButton<CarModel>(
+      //                 hint: Text('Related Car'),
+      //                 value: items,
+      //                 isExpanded: true,
+      //                 items: items.map((CarModel fordcars) {
+      //                   return DropdownMenuItem<CarModel>(
+      //                     value: fordcars,
+      //                     child: Text(items.cars!.ford!.length.toString()),
+      //                   );
+      //                 }).toList(),
+      //                 onChanged: onDistrictChange,
+      //               ),
+      //               // Districts Dropdown Ends here
+      //             ],
+      //           );
+      //         },
+      //
+      //       );
+      //     }
+      //     else{
+      //       return  Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     }
+      //   }
+      //
+      // )
 
 
 
@@ -132,24 +152,24 @@ List<Ford> fordcar=[];
     );
   }
 
-  // void onStateChange(state) {
-  //   setState(() {
-  //     selectedNissan = state;
-  //     Ford = [];
-  //     selectedNissan = null;
-  //   });
-  //   String endpoint = "$baseURL/api/pin/${selectedNissan!.cars}";
-  //   selectedNissan!.then((List<CarModel> value) {
-  //     setState(() {
-  //       selectedNissan = value as CarModel?;
-  //     });
-  //   });
-  // }
+  void onStateChange(state) {
+    setState(() {
+      nissancar = state;
+      nissancar = [];
+      selectedNissan = null;
+    });
+    String endpoint = "${selectedNissan!.model}";
+    selectedNissan!.then((List<Nissan> value) {
+      setState(() {
+        selectedNissan = value as Nissan?;
+      });
+    });
+  }
 
-  // void onDistrictChange(district) {
-  //   setState(() {
-  //     selectedNissan = district;
-  //   });
-  // }
+  void onDistrictChange(district) {
+    setState(() {
+      selectedNissan = district;
+    });
+  }
   
 }

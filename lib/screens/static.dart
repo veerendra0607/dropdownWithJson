@@ -24,7 +24,7 @@ class _StaticDropDownState extends State<StaticDropDown> {
       body: ListView(
         padding: EdgeInsets.all(20.0),
         children: [
-          // Country Dropdown
+          // Select Car Dropdown
           DropdownButton<String>(
             hint: Text('Select Car'),
             value: SelectedNissan,
@@ -49,9 +49,9 @@ class _StaticDropDownState extends State<StaticDropDown> {
               });
             },
           ),
-          // Country Dropdown Ends here
+          //  Dropdown Ends here
           SizedBox(height: 60.0),
-          // Province Dropdown
+          // Related Car Dropdown
           DropdownButton<String>(
             hint: Text('Related Cars'),
             value: SelectedFord,
@@ -62,13 +62,13 @@ class _StaticDropDownState extends State<StaticDropDown> {
                 child: Text(value),
               );
             }).toList(),
-            onChanged: (province) {
+            onChanged: (data) {
               setState(() {
-                SelectedFord = province;
+                SelectedFord = data;
               });
             },
           ),
-          // Province Dropdown Ends here
+          //  Dropdown Ends here
         ],
       ),
     );
